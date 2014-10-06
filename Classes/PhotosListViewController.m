@@ -225,8 +225,7 @@ static NSString * const kPhotoCellReuseID = @"photo-cell";
 }
 
 - (void)actionBarDidSelectDelete:(ActionBar *)actionBar {
-    NSArray *selectedPhotos = [self selectedPhotos];
-    [self deselectSelectedPhotos];
+    NSArray *selectedPhotos = [self.selectedPhotos];
     
     NSMutableArray *assets = [NSMutableArray array];
     NSArray *localIdentifiers = [selectedPhotos valueForKey:@"localIdentifier"];
@@ -241,6 +240,9 @@ static NSString * const kPhotoCellReuseID = @"photo-cell";
     } completionHandler:^(BOOL success, NSError *error) {
         if (success) {
             [Database deletePhotos:selectedPhotos completion:nil];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self deselectSelectedPhotos];
+            });
         }
     }];
 }
