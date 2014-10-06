@@ -8,11 +8,17 @@
 
 #import "PhotosListViewController.h"
 
+// TODO move out of here
+@import Photos;
+
 #import "PhotoCell.h"
 #import "ActionBar.h"
 #import "Database.h"
 #import "DataSourceUpdate.h"
 #import "UICollectionView+DataSourceUpdate.h"
+#import "CollectionPickerViewController.h"
+#import "EventsDataSource.h"
+#import "TopicsDataSource.h"
 
 static NSInteger const kNumberOfColumns = 4;
 static CGFloat const kCellSpacing = 1.0;
@@ -20,9 +26,10 @@ static CGFloat const kSelectionBarHeight = 60.0;
 
 static NSString * const kPhotoCellReuseID = @"photo-cell";
 
-@interface PhotosListViewController ()<UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, ActionBarDelegate>
+@interface PhotosListViewController ()<UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, ActionBarDelegate, CollectionPickerViewControllerDelegate>
 
 @property (nonatomic, strong, readwrite) PhotosDataSource *dataSource;
+@property (nonatomic, assign) BOOL loadedOnce;
 
 @property (nonatomic, strong) UICollectionView *collectionView;
 @property (nonatomic, strong) UICollectionViewFlowLayout *layout;
@@ -59,12 +66,20 @@ static NSString * const kPhotoCellReuseID = @"photo-cell";
     [self.view addSubview:self.actionBar];
     
     [self updateSelectionBar];
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
     
-    [self.collectionView layoutIfNeeded];
-    CGFloat contentHeight = self.collectionView.contentSize.height + self.collectionView.contentInset.bottom;
-    CGFloat collectionViewHeight = self.collectionView.bounds.size.height;
-    CGFloat offsetY = MAX(contentHeight - collectionViewHeight, 0.0);
-    self.collectionView.contentOffset = CGPointMake(0.0, offsetY);
+    if (!self.loadedOnce) {
+        self.loadedOnce = YES;
+        
+        [self.collectionView layoutIfNeeded];
+        CGFloat contentHeight = self.collectionView.contentSize.height + self.collectionView.contentInset.bottom;
+        CGFloat collectionViewHeight = self.collectionView.bounds.size.height;
+        CGFloat offsetY = MAX(contentHeight - collectionViewHeight, 0.0);
+        self.collectionView.contentOffset = CGPointMake(0.0, offsetY);
+    }
 }
 
 
@@ -133,7 +148,7 @@ static NSString * const kPhotoCellReuseID = @"photo-cell";
 #pragma mark UICollectionViewDelegateFlowLayout
 
 - (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout insetForSectionAtIndex:(NSInteger)section {
-    return UIEdgeInsetsZero;
+    return UIEdgeInsetsMake(60.0, 0.0, 0.0, 0.0);
 }
 
 - (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumInteritemSpacingForSectionAtIndex:(NSInteger)section {
@@ -180,48 +195,104 @@ static NSString * const kPhotoCellReuseID = @"photo-cell";
     return photos;
 }
 
+- (void)deselectSelectedPhotos {
+    for (NSIndexPath *indexPath in self.collectionView.indexPathsForSelectedItems) {
+        [self.collectionView deselectItemAtIndexPath:indexPath animated:YES];
+    }
+    [self updateSelectionBar];
+}
+
 
 #pragma mark -
 #pragma mark ActionBarDelegate
 
 - (void)actionBarDidSelectCancel:(ActionBar *)actionBar {
-    for (NSIndexPath *indexPath in self.collectionView.indexPathsForSelectedItems) {
-        [self.collectionView deselectItemAtIndexPath:indexPath animated:YES];
-    }
+    [self deselectSelectedPhotos];
 }
 
 - (void)actionBarDidSelectEvent:(ActionBar *)actionBar {
-    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"New Event" message:nil preferredStyle:UIAlertControllerStyleAlert];
-    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:nil];
-    UIAlertAction *addAction = [UIAlertAction actionWithTitle:@"Add" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-        UITextField *textField = alertController.textFields.firstObject;
-        NSString *eventName = textField.text;
-        NSAssert(eventName.length > 0, @"Not a valid event name");
-        [Database addPhotos:self.selectedPhotos toNewEventNamed:eventName completion:nil];
-    }];
-    [alertController addTextFieldWithConfigurationHandler:nil];
-    [alertController addAction:cancelAction];
-    [alertController addAction:addAction];
-    [self presentViewController:alertController animated:YES completion:nil];
+    EventsDataSource *dataSource = [[EventsDataSource alloc] init];
+    CollectionPickerViewController *picker = [[CollectionPickerViewController alloc] initWithCollectionType:CollectionTypeEvent dataSource:dataSource];
+    [self presentViewController:picker animated:YES completion:nil];
+    picker.delegate = self;
 }
 
 - (void)actionBarDidSelectTopic:(ActionBar *)actionBar {
-    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"New Topic" message:nil preferredStyle:UIAlertControllerStyleAlert];
-    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:nil];
-    UIAlertAction *addAction = [UIAlertAction actionWithTitle:@"Add" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-        UITextField *textField = alertController.textFields.firstObject;
-        NSString *topicName = textField.text;
-        NSAssert(topicName.length > 0, @"Not a valid topic name");
-        [Database addPhotos:self.selectedPhotos toNewTopicNamed:topicName completion:nil];
-    }];
-    [alertController addTextFieldWithConfigurationHandler:nil];
-    [alertController addAction:cancelAction];
-    [alertController addAction:addAction];
-    [self presentViewController:alertController animated:YES completion:nil];
+    TopicsDataSource *dataSource = [[TopicsDataSource alloc] init];
+    CollectionPickerViewController *picker = [[CollectionPickerViewController alloc] initWithCollectionType:CollectionTypeTopic dataSource:dataSource];
+    [self presentViewController:picker animated:YES completion:nil];
+    picker.delegate = self;
 }
 
 - (void)actionBarDidSelectDelete:(ActionBar *)actionBar {
-    //
+    NSArray *selectedPhotos = [self selectedPhotos];
+    [self deselectSelectedPhotos];
+    
+    NSMutableArray *assets = [NSMutableArray array];
+    NSArray *localIdentifiers = [selectedPhotos valueForKey:@"localIdentifier"];
+    PHFetchResult *result = [PHAsset fetchAssetsWithLocalIdentifiers:localIdentifiers options:nil];
+    [result enumerateObjectsUsingBlock:^(PHAsset *asset, NSUInteger i, BOOL *stop) {
+        [assets addObject:asset];
+    }];
+    
+    [[PHPhotoLibrary sharedPhotoLibrary] performChanges:^{
+        [PHAssetChangeRequest deleteAssets:assets];
+        
+    } completionHandler:^(BOOL success, NSError *error) {
+        if (success) {
+            [Database deletePhotos:selectedPhotos completion:nil];
+        }
+    }];
+}
+
+
+#pragma mark -
+#pragma mark CollectionPickerViewControllerDelegate
+
+- (void)collectionPickerViewController:(CollectionPickerViewController *)controller
+           didCreateNewCollectionNamed:(NSString *)collectionName {
+    
+    NSArray *selectedPhotos = [self selectedPhotos];
+    [self deselectSelectedPhotos];
+    
+    switch (controller.collectionType) {
+        case CollectionTypeEvent: {
+            [Database addPhotos:selectedPhotos
+                toNewEventNamed:collectionName
+                     completion:nil];
+        } break;
+            
+        case CollectionTypeTopic: {
+            [Database addPhotos:selectedPhotos
+                toNewTopicNamed:collectionName
+                     completion:nil];
+        } break;
+    }
+
+    [controller dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (void)collectionPickerViewController:(CollectionPickerViewController *)controller
+           didSelectExistingCollection:(NSObject<Collection> *)collection {
+
+    NSArray *selectedPhotos = [self selectedPhotos];
+    [self deselectSelectedPhotos];
+    
+    switch (controller.collectionType) {
+        case CollectionTypeEvent: {
+            [Database addPhotos:selectedPhotos
+                toExistingEvent:(id)collection
+                     completion:nil];
+        } break;
+            
+        case CollectionTypeTopic: {
+            [Database addPhotos:selectedPhotos
+                toExistingTopic:(id)collection
+                     completion:nil];
+        } break;
+    }
+    
+    [controller dismissViewControllerAnimated:YES completion:nil];
 }
 
 

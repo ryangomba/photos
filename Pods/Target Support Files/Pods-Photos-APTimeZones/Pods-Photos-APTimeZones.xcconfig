@@ -1,0 +1,1 @@
+PODS_PHOTOS_APTIMEZONES_OTHER_LDFLAGS = -framework "CoreLocation"

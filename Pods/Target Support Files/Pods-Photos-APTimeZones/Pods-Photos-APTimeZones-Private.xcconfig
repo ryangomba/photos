@@ -1,0 +1,5 @@
+#include "Pods-Photos-APTimeZones.xcconfig"
+GCC_PREPROCESSOR_DEFINITIONS = $(inherited) COCOAPODS=1
+HEADER_SEARCH_PATHS = "${PODS_ROOT}/Headers/Build" "${PODS_ROOT}/Headers/Build/APTimeZones" "${PODS_ROOT}/Headers/Public" "${PODS_ROOT}/Headers/Public/APTimeZones" "${PODS_ROOT}/Headers/Public/CocoaLumberjack" "${PODS_ROOT}/Headers/Public/RGCore" "${PODS_ROOT}/Headers/Public/RGFoundation" "${PODS_ROOT}/Headers/Public/RGInterfaceKit" "${PODS_ROOT}/Headers/Public/YapDatabase"
+OTHER_LDFLAGS = ${PODS_PHOTOS_APTIMEZONES_OTHER_LDFLAGS} -ObjC
+PODS_ROOT = ${SRCROOT}

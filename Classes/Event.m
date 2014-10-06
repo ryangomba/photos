@@ -15,6 +15,23 @@ static NSString * const kRepresentativePhotoPKKey = @"representativePhotoPK";
 
 @implementation Event
 
+@synthesize pk;
+@synthesize title;
+@synthesize representativeDate;
+@synthesize representativePhotoPK;
+
+#pragma mark -
+#pragma mark Collection
+
+- (CollectionType)type {
+    return CollectionTypeEvent;
+}
+
+- (NSString *)displayName {
+    return self.title;
+}
+
+
 #pragma mark -
 #pragma mark NSCoding
 

@@ -28,6 +28,8 @@ static NSString * const kTopicsCollectionKey = @"topics";
                                 completion:(void(^)(NSSet *foundLocalIdentifiers))completion;
 
 + (void)savePhotos:(NSArray *)photos completion:(void(^)(void))completion;
++ (void)deletePhotos:(NSArray *)photos completion:(void(^)(void))completion;
+
 + (void)saveEvents:(NSArray *)events completion:(void(^)(void))completion;
 + (void)saveTopics:(NSArray *)topics completion:(void(^)(void))completion;
 
@@ -38,9 +40,10 @@ static NSString * const kTopicsCollectionKey = @"topics";
 + (void)addPhotos:(NSArray *)photos toNewTopicNamed:(NSString *)topicName completion:(void(^)(void))completion;
 
 // TODO messy
-+ (void)addPhotos:(NSArray *)photos toScreenshotTopicWithcompletion:(void(^)(void))completion;
++ (void)addPhotos:(NSArray *)photos toScreenshotTopicWithCompletion:(void(^)(void))completion;
 
-+ (void)fetchRepresentativePhotoForEvent:(Event *)event completion:(void(^)(Event *event, Photo *photo))completion;
-+ (void)fetchRepresentativePhotoForTopic:(Topic *)topic completion:(void(^)(Topic *topic, Photo *photo))completion;
++ (void)fetchRepresentativePhotoForCollectionPK:(NSString *)collectionPK
+                                 collectionType:(CollectionType)collectionType
+                                     completion:(void(^)(NSObject<Collection> *, Photo *photo))completion;
 
 @end

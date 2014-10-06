@@ -67,6 +67,19 @@
     }];
 }
 
++ (void)deletePhotos:(NSArray *)photos completion:(void(^)(void))completion {
+    [self.writeConnection asyncReadWriteWithBlock:^(YapDatabaseReadWriteTransaction *transaction) {
+        for (Photo *photo in photos) {
+            NSString *collectionPK = photo.collectionPK ?: kPhotosCollectionKey;
+            [transaction removeObjectForKey:photo.localIdentifier inCollection:collectionPK];
+        }
+    } completionBlock:^{
+        if (completion) {
+            completion();
+        }
+    }];
+}
+
 + (void)saveEvents:(NSArray *)events completion:(void (^)(void))completion {
     [self.writeConnection asyncReadWriteWithBlock:^(YapDatabaseReadWriteTransaction *transaction) {
         for (Event *event in events) {
@@ -162,7 +175,7 @@
     [transaction setObject:validTopic forKey:topic.pk inCollection:kTopicsCollectionKey];
 }
 
-+ (void)addPhotos:(NSArray *)photos toScreenshotTopicWithcompletion:(void(^)(void))completion {
++ (void)addPhotos:(NSArray *)photos toScreenshotTopicWithCompletion:(void(^)(void))completion {
     if (photos.count == 0) {
         return;
     }
@@ -185,23 +198,29 @@
     }];
 }
 
-+ (void)fetchRepresentativePhotoForEvent:(Event *)event completion:(void(^)(Event *event, Photo *photo))completion {
-    __block Photo *photo = nil;
-    [self.database.newConnection asyncReadWithBlock:^(YapDatabaseReadTransaction *transaction) {
-        photo = [transaction objectForKey:event.representativePhotoPK inCollection:event.pk];
-        NSAssert(photo, @"WTF no photo");
-    } completionBlock:^{
-        completion(event, photo);
-    }];
++ (NSString *)collectionKeyForCollectionType:(CollectionType)collectionType {
+    switch (collectionType) {
+        case CollectionTypeEvent:
+            return kEventsCollectionKey;
+        case CollectionTypeTopic:
+            return kTopicsCollectionKey;
+    }
 }
 
-+ (void)fetchRepresentativePhotoForTopic:(Topic *)topic completion:(void(^)(Topic *topic, Photo *photo))completion {
++ (void)fetchRepresentativePhotoForCollectionPK:(NSString *)collectionPK
+                                 collectionType:(CollectionType)collectionType
+                                     completion:(void(^)(NSObject<Collection> *, Photo *photo))completion {
+    
     __block Photo *photo = nil;
+    __block NSObject<Collection> *collection = nil;
     [self.database.newConnection asyncReadWithBlock:^(YapDatabaseReadTransaction *transaction) {
-        photo = [transaction objectForKey:topic.representativePhotoPK inCollection:topic.pk];
+        NSString *collectionKey = [self collectionKeyForCollectionType:collectionType];
+        collection = [transaction objectForKey:collectionPK inCollection:collectionKey];
+        photo = [transaction objectForKey:collection.representativePhotoPK inCollection:collection.pk];
         NSAssert(photo, @"WTF no photo");
+        
     } completionBlock:^{
-        completion(topic, photo);
+        completion(collection, photo);
     }];
 }
 

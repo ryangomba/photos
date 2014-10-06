@@ -10,6 +10,7 @@
 
 static NSString * const kLocalIdentifierKey = @"localIdentifier";
 static NSString * const kCreationDateKey = @"creationDate";
+static NSString * const kLocationKey = @"location";
 static NSString * const kCollectionPKKey = @"collectionPK";
 
 @implementation Photo
@@ -21,6 +22,7 @@ static NSString * const kCollectionPKKey = @"collectionPK";
     if (self = [super init]) {
         self.localIdentifier = [aDecoder decodeObjectForKey:kLocalIdentifierKey];
         self.creationDate = [aDecoder decodeObjectForKey:kCreationDateKey];
+        self.location = [aDecoder decodeObjectForKey:kLocationKey];
         self.collectionPK = [aDecoder decodeObjectForKey:kCollectionPKKey];
     }
     return self;
@@ -29,6 +31,7 @@ static NSString * const kCollectionPKKey = @"collectionPK";
 - (void)encodeWithCoder:(NSCoder *)aCoder {
     [aCoder encodeObject:self.localIdentifier forKey:kLocalIdentifierKey];
     [aCoder encodeObject:self.creationDate forKey:kCreationDateKey];
+    [aCoder encodeObject:self.location forKey:kLocationKey];
     [aCoder encodeObject:self.collectionPK forKey:kCollectionPKKey];
 }
 

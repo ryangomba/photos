@@ -42,7 +42,7 @@
 }
 
 - (void)updateBadgeCount {
-    self.barItem.badgeCount = [self.dataSource numberOfItemsInSection:0]; // HACK
+    self.barItem.badgeVisible = [self.dataSource numberOfSections] > 0; // HACK
 }
 
 @end

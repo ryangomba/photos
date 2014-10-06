@@ -1,19 +1,19 @@
 //
-//  EventCell.m
+//  TopicCell.m
 //  Photos
 //
 //  Created by Ryan Gomba on 10/4/14.
 //  Copyright (c) 2014 Ryan Gomba. All rights reserved.
 //
 
-#import "EventCell.h"
+#import "CollectionCell.h"
 
 #import <RGFoundation/RGGeometry.h>
 #import <RGInterfaceKit/RGColors.h>
 #import "PhotoLoader.h"
 #import "Database.h"
 
-@interface EventCell ()
+@interface CollectionCell ()
 
 @property (nonatomic, strong) UIImageView *imageView;
 @property (nonatomic, strong) UILabel *titleLabel;
@@ -21,7 +21,7 @@
 
 @end
 
-@implementation EventCell
+@implementation CollectionCell
 
 - (instancetype)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {
@@ -56,23 +56,27 @@
     return _titleLabel;
 }
 
-- (void)setEvent:(Event *)event {
-    _event = event;
+- (void)setCollection:(NSObject<Collection> *)collection {
+    _collection = collection;
     
     self.imageView.image = nil;
-    self.titleLabel.text = event.title;
+    self.titleLabel.text = collection.displayName;
     
     // TODO so messy, race conditions for sure
     CGSize imageSize = CGSizeMultiply(self.imageView.bounds.size, [UIScreen mainScreen].scale);
-    [Database fetchRepresentativePhotoForEvent:event completion:^(Event *event, Photo *photo) {
-        if ([event isEqual:self.event]) {
-            self.photoLoader = [[PhotoLoader alloc] initWithPhoto:photo];
-            [self.photoLoader loadImageOfSize:imageSize completion:^(UIImage *image, Photo *photo) {
-                if ([event isEqual:self.event]) {
-                    self.imageView.image = image;
-                }
-            }];
-        }
+    [Database fetchRepresentativePhotoForCollectionPK:self.collection.pk
+                                       collectionType:self.collection.type
+                                           completion:^(NSObject<Collection> *collection, Photo *photo)
+     {
+         NSAssert(photo, @"No photo");
+         if ([collection isEqual:self.collection]) {
+             self.photoLoader = [[PhotoLoader alloc] initWithPhoto:photo];
+             [self.photoLoader loadImageOfSize:imageSize completion:^(UIImage *image, Photo *photo) {
+                 if ([collection isEqual:self.collection]) {
+                     self.imageView.image = image;
+                 }
+             }];
+         }
     }];
 }
 

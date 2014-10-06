@@ -80,6 +80,7 @@
             Photo *photo = [[Photo alloc] init];
             photo.localIdentifier = asset.localIdentifier;
             photo.creationDate = asset.creationDate;
+            photo.location = [[Location alloc] initWithLocation:asset.location];
             [photos addObject:photo];
             CGSize imageSize = CGSizeMake(asset.pixelWidth, asset.pixelHeight);
             if ([ScreenshotIndex imageSizeQualifiesAsScreenshot:imageSize]) {
@@ -87,7 +88,7 @@
             }
         }
         [Database savePhotos:photos completion:^{
-            [Database addPhotos:screenshots toScreenshotTopicWithcompletion:^{
+            [Database addPhotos:screenshots toScreenshotTopicWithCompletion:^{
                 self.isImporting = NO;
                 if (self.needsImport) {
                     [self importPhotos];

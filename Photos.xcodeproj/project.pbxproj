@@ -29,8 +29,7 @@
 		94EC531419E0745E00F90632 /* PhotoView.m in Sources */ = {isa = PBXBuildFile; fileRef = 94EC531319E0745E00F90632 /* PhotoView.m */; };
 		94EC531719E0768F00F90632 /* PhotoCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 94EC531619E0768F00F90632 /* PhotoCell.m */; };
 		94EC531A19E0786B00F90632 /* PhotoLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = 94EC531919E0786B00F90632 /* PhotoLoader.m */; };
-		94EC531D19E07B8800F90632 /* EventCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 94EC531C19E07B8800F90632 /* EventCell.m */; };
-		94EC532019E07CE000F90632 /* TopicCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 94EC531F19E07CE000F90632 /* TopicCell.m */; };
+		94EC532019E07CE000F90632 /* CollectionCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 94EC531F19E07CE000F90632 /* CollectionCell.m */; };
 		94EC532319E0916500F90632 /* ActionBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 94EC532219E0916500F90632 /* ActionBar.m */; };
 		94EC532619E0A24400F90632 /* RGShakeWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 94EC532519E0A24400F90632 /* RGShakeWindow.m */; };
 		94EC532A19E0A64C00F90632 /* DataSourceUpdate.m in Sources */ = {isa = PBXBuildFile; fileRef = 94EC532919E0A64C00F90632 /* DataSourceUpdate.m */; };
@@ -41,6 +40,8 @@
 		94EC533D19E1A54100F90632 /* TabBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 94EC533C19E1A54100F90632 /* TabBar.m */; };
 		94EC534019E2EE9500F90632 /* ScreenshotIndex.m in Sources */ = {isa = PBXBuildFile; fileRef = 94EC533F19E2EE9500F90632 /* ScreenshotIndex.m */; };
 		94EC534319E2FFF500F90632 /* UICollectionView+DataSourceUpdate.m in Sources */ = {isa = PBXBuildFile; fileRef = 94EC534219E2FFF500F90632 /* UICollectionView+DataSourceUpdate.m */; };
+		94EC534519E3090500F90632 /* Location.m in Sources */ = {isa = PBXBuildFile; fileRef = 94EC534419E3090500F90632 /* Location.m */; };
+		94EC534919E31B0900F90632 /* CollectionPickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94EC534819E31B0900F90632 /* CollectionPickerViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -86,10 +87,8 @@
 		94EC531619E0768F00F90632 /* PhotoCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotoCell.m; sourceTree = "<group>"; };
 		94EC531819E0786B00F90632 /* PhotoLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhotoLoader.h; sourceTree = "<group>"; };
 		94EC531919E0786B00F90632 /* PhotoLoader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotoLoader.m; sourceTree = "<group>"; };
-		94EC531B19E07B8800F90632 /* EventCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EventCell.h; sourceTree = "<group>"; };
-		94EC531C19E07B8800F90632 /* EventCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EventCell.m; sourceTree = "<group>"; };
-		94EC531E19E07CE000F90632 /* TopicCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TopicCell.h; sourceTree = "<group>"; };
-		94EC531F19E07CE000F90632 /* TopicCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TopicCell.m; sourceTree = "<group>"; };
+		94EC531E19E07CE000F90632 /* CollectionCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollectionCell.h; sourceTree = "<group>"; };
+		94EC531F19E07CE000F90632 /* CollectionCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollectionCell.m; sourceTree = "<group>"; };
 		94EC532119E0916500F90632 /* ActionBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ActionBar.h; sourceTree = "<group>"; };
 		94EC532219E0916500F90632 /* ActionBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ActionBar.m; sourceTree = "<group>"; };
 		94EC532419E0A24400F90632 /* RGShakeWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RGShakeWindow.h; sourceTree = "<group>"; };
@@ -111,6 +110,11 @@
 		94EC533F19E2EE9500F90632 /* ScreenshotIndex.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScreenshotIndex.m; sourceTree = "<group>"; };
 		94EC534119E2FFF500F90632 /* UICollectionView+DataSourceUpdate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UICollectionView+DataSourceUpdate.h"; sourceTree = "<group>"; };
 		94EC534219E2FFF500F90632 /* UICollectionView+DataSourceUpdate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UICollectionView+DataSourceUpdate.m"; sourceTree = "<group>"; };
+		94EC534419E3090500F90632 /* Location.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Location.m; sourceTree = "<group>"; };
+		94EC534619E3092000F90632 /* Location.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Location.h; sourceTree = "<group>"; };
+		94EC534719E31B0900F90632 /* CollectionPickerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollectionPickerViewController.h; sourceTree = "<group>"; };
+		94EC534819E31B0900F90632 /* CollectionPickerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollectionPickerViewController.m; sourceTree = "<group>"; };
+		94EC534A19E320E600F90632 /* Collection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Collection.h; sourceTree = "<group>"; };
 		E1250A1BFE34E248C04709BF /* libPods-Photos.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Photos.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F5C3B91656E3B9E2186D978F /* Pods-Photos.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Photos.release.xcconfig"; path = "Pods/Target Support Files/Pods-Photos/Pods-Photos.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -176,6 +180,10 @@
 				94EC532919E0A64C00F90632 /* DataSourceUpdate.m */,
 				94EC534119E2FFF500F90632 /* UICollectionView+DataSourceUpdate.h */,
 				94EC534219E2FFF500F90632 /* UICollectionView+DataSourceUpdate.m */,
+				94EC534719E31B0900F90632 /* CollectionPickerViewController.h */,
+				94EC534819E31B0900F90632 /* CollectionPickerViewController.m */,
+				94EC531E19E07CE000F90632 /* CollectionCell.h */,
+				94EC531F19E07CE000F90632 /* CollectionCell.m */,
 				94EC533119E1A0C400F90632 /* Tab Bar */,
 				94EC532719E0A25E00F90632 /* Debug */,
 				94EC531019E0738F00F90632 /* Model */,
@@ -205,8 +213,6 @@
 				94EC530519E06FA400F90632 /* TopicsDataSource.m */,
 				94EC530A19E071EF00F90632 /* TopicsListViewController.h */,
 				94EC530B19E071EF00F90632 /* TopicsListViewController.m */,
-				94EC531E19E07CE000F90632 /* TopicCell.h */,
-				94EC531F19E07CE000F90632 /* TopicCell.m */,
 				94EC532E19E19EA100F90632 /* TopicViewController.h */,
 				94EC532F19E19EA100F90632 /* TopicViewController.m */,
 			);
@@ -220,8 +226,6 @@
 				94EC52FF19E06D3F00F90632 /* EventsDataSource.m */,
 				94EC530719E0706A00F90632 /* EventsListViewController.h */,
 				94EC530819E0706A00F90632 /* EventsListViewController.m */,
-				94EC531B19E07B8800F90632 /* EventCell.h */,
-				94EC531C19E07B8800F90632 /* EventCell.m */,
 				94EC532B19E19CD400F90632 /* EventViewController.h */,
 				94EC532C19E19CD400F90632 /* EventViewController.m */,
 			);
@@ -254,10 +258,13 @@
 			children = (
 				94EC52DF19DF513E00F90632 /* Photo.h */,
 				94EC52E019DF513E00F90632 /* Photo.m */,
+				94EC534A19E320E600F90632 /* Collection.h */,
 				94EC52E219DF529200F90632 /* Event.h */,
 				94EC52E319DF529200F90632 /* Event.m */,
 				94EC52E519DF53A100F90632 /* Topic.h */,
 				94EC52E619DF53A100F90632 /* Topic.m */,
+				94EC534619E3092000F90632 /* Location.h */,
+				94EC534419E3090500F90632 /* Location.m */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -424,14 +431,15 @@
 				94EC530C19E071EF00F90632 /* TopicsListViewController.m in Sources */,
 				94EC52D519DF4FA500F90632 /* AppDelegate.m in Sources */,
 				94EC533A19E1A1BA00F90632 /* TabBarItemView.m in Sources */,
-				94EC532019E07CE000F90632 /* TopicCell.m in Sources */,
-				94EC531D19E07B8800F90632 /* EventCell.m in Sources */,
+				94EC532019E07CE000F90632 /* CollectionCell.m in Sources */,
 				94EC534019E2EE9500F90632 /* ScreenshotIndex.m in Sources */,
 				94EC533019E19EA100F90632 /* TopicViewController.m in Sources */,
+				94EC534919E31B0900F90632 /* CollectionPickerViewController.m in Sources */,
 				94EC52F719DF64BB00F90632 /* InboxViewController.m in Sources */,
 				94EC531419E0745E00F90632 /* PhotoView.m in Sources */,
 				94EC531A19E0786B00F90632 /* PhotoLoader.m in Sources */,
 				94EC532A19E0A64C00F90632 /* DataSourceUpdate.m in Sources */,
+				94EC534519E3090500F90632 /* Location.m in Sources */,
 				94EC532319E0916500F90632 /* ActionBar.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

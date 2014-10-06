@@ -19,6 +19,7 @@
 @property (nonatomic, strong) NSString *viewName;
 @property (nonatomic, strong) NSString *collectionKey;
 @property (nonatomic, strong) NSComparator comparator;
+@property (nonatomic, strong) NSString * (^groupingBlock)(id);
 
 @property (nonatomic, strong) YapDatabaseConnection *connection;
 @property (nonatomic, strong) YapDatabaseView *view;
@@ -34,10 +35,14 @@
     [database unregisterExtensionWithName:self.viewName];
 }
 
-- (instancetype)initWithCollectionKey:(NSString *)collectionKey comparator:(NSComparator)comparator {
+- (instancetype)initWithCollectionKey:(NSString *)collectionKey
+                           comparator:(NSComparator)comparator
+                        groupingBlock:(NSString * (^)(id))groupingBlock {
+    
     if (self = [super init]) {
         self.collectionKey = collectionKey;
         self.comparator = comparator;
+        self.groupingBlock = groupingBlock;
         self.viewName = collectionKey; // TODO hack
         
         YapDatabase *database = [Database database];
@@ -45,7 +50,12 @@
         self.connection = [database newConnection];
         [self.connection beginLongLivedReadTransaction];
         
-        self.mappings = [[YapDatabaseViewMappings alloc] initWithGroups:@[@"default_group"] view:self.viewName];;
+        self.mappings = [[YapDatabaseViewMappings alloc] initWithGroupFilterBlock:^BOOL(NSString *group, YapDatabaseReadTransaction *transaction) {
+            return group != nil;
+        } sortBlock:^NSComparisonResult(NSString *group1, NSString *group2, YapDatabaseReadTransaction *transaction) {
+            return [group1 compare:group2];
+        } view:self.viewName];
+        
         [self.connection readWithBlock:^(YapDatabaseReadTransaction *transaction){
             [self.mappings updateWithTransaction:transaction];
         }];
@@ -60,10 +70,14 @@
 
 - (YapDatabaseView *)view {
     if (!_view) {
-        YapDatabaseViewGroupingWithKeyBlock groupingBlock =
-        ^(NSString *collection, NSString *key) {
+        YapDatabaseViewGroupingWithObjectBlock groupingBlock =
+        ^(NSString *collection, NSString *key, id object) {
             if ([collection isEqualToString:self.collectionKey]) {
-                return @"default_group"; // TODO hack
+                if (self.groupingBlock) {
+                    return self.groupingBlock(object);
+                } else {
+                    return @"default_group";
+                }
             }
             return (NSString *)nil;
         };
@@ -74,10 +88,10 @@
         };
         
         _view = [[YapDatabaseView alloc] initWithGroupingBlock:groupingBlock
-                                             groupingBlockType:YapDatabaseViewBlockTypeWithKey
+                                             groupingBlockType:YapDatabaseViewBlockTypeWithObject
                                                   sortingBlock:sortingBlock
                                               sortingBlockType:YapDatabaseViewBlockTypeWithObject
-                                                    versionTag:@"1.0"
+                                                    versionTag:@"0.0.3"
                                                        options:nil];
     }
     return _view;
@@ -154,7 +168,7 @@
     __block id object;
     [self.connection readWithBlock:^(YapDatabaseReadTransaction *transaction) {
         YapDatabaseViewTransaction *viewTransaction = [transaction extension:self.viewName];
-        object = [viewTransaction objectAtIndex:indexPath.item inGroup:@"default_group"];
+        object = [viewTransaction objectAtIndexPath:indexPath withMappings:self.mappings];
     }];
     return object;
 }

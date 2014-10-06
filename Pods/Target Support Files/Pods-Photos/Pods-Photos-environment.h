@@ -6,6 +6,12 @@
 // project.
 
 
+// APTimeZones
+#define COCOAPODS_POD_AVAILABLE_APTimeZones
+#define COCOAPODS_VERSION_MAJOR_APTimeZones 1
+#define COCOAPODS_VERSION_MINOR_APTimeZones 1
+#define COCOAPODS_VERSION_PATCH_APTimeZones 0
+
 // CocoaLumberjack
 #define COCOAPODS_POD_AVAILABLE_CocoaLumberjack
 #define COCOAPODS_VERSION_MAJOR_CocoaLumberjack 1

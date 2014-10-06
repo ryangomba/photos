@@ -8,12 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
-@interface Event : NSObject<NSCoding>
+#import "Collection.h"
 
-@property (nonatomic, strong) NSString *pk;
-@property (nonatomic, strong) NSString *title;
-@property (nonatomic, strong) NSDate *representativeDate;
-
-@property (nonatomic, strong) NSString *representativePhotoPK;
+@interface Event : NSObject<Collection, NSCoding>
 
 @end

@@ -15,6 +15,23 @@ static NSString * const kRepresentativePhotoPKKey = @"representativePhotoPK";
 
 @implementation Topic
 
+@synthesize pk;
+@synthesize title;
+@synthesize representativeDate;
+@synthesize representativePhotoPK;
+
+#pragma mark -
+#pragma mark Collection
+
+- (CollectionType)type {
+    return CollectionTypeTopic;
+}
+
+- (NSString *)displayName {
+    return [NSString stringWithFormat:@"#%@", self.title.lowercaseString];
+}
+
+
 #pragma mark -
 #pragma mark NSCoding
 

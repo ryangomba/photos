@@ -8,10 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
-#import "Topic.h"
+#import "Collection.h"
 
-@interface TopicCell : UICollectionViewCell
+@interface CollectionCell : UICollectionViewCell
 
-@property (nonatomic, strong) Topic *topic;
+@property (nonatomic, strong) NSObject<Collection> *collection;
 
 @end

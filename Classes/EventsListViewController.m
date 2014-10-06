@@ -9,7 +9,7 @@
 #import "EventsListViewController.h"
 
 #import "EventsDataSource.h"
-#import "EventCell.h"
+#import "CollectionCell.h"
 #import "EventViewController.h"
 #import "UICollectionView+DataSourceUpdate.h"
 
@@ -84,11 +84,12 @@ static NSString * const kEventCellReuseID = @"event-cell";
 - (UICollectionView *)collectionView {
     if (!_collectionView) {
         _collectionView = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:self.layout];
+        _collectionView.autoresizingMask = UIViewAutoresizingFlexibleHeight;
         _collectionView.alwaysBounceVertical = YES;
         _collectionView.dataSource = self;
         _collectionView.delegate = self;
         
-        [_collectionView registerClass:[EventCell class] forCellWithReuseIdentifier:kEventCellReuseID];
+        [_collectionView registerClass:[CollectionCell class] forCellWithReuseIdentifier:kEventCellReuseID];
     }
     return _collectionView;
 }
@@ -114,8 +115,8 @@ static NSString * const kEventCellReuseID = @"event-cell";
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-    EventCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:kEventCellReuseID forIndexPath:indexPath];
-    cell.event = [self eventAtIndexPath:indexPath];
+    CollectionCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:kEventCellReuseID forIndexPath:indexPath];
+    cell.collection = [self eventAtIndexPath:indexPath];
     return cell;
 }
 

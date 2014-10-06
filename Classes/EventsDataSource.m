@@ -15,7 +15,7 @@
 - (instancetype)init {
     return [super initWithCollectionKey:kEventsCollectionKey comparator:^NSComparisonResult(Event *event1, Event *event2) {
         return [event2.representativeDate compare:event1.representativeDate];
-    }];
+    } groupingBlock:nil];
 }
 
 @end

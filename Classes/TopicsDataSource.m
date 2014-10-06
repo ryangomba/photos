@@ -15,7 +15,7 @@
 - (instancetype)init {
     return [super initWithCollectionKey:kTopicsCollectionKey comparator:^NSComparisonResult(Topic *topic1, Topic *topic2) {
         return [topic2.representativeDate compare:topic1.representativeDate];
-    }];
+    } groupingBlock:nil];
 }
 
 @end

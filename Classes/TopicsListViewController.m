@@ -9,7 +9,7 @@
 #import "TopicsListViewController.h"
 
 #import "TopicsDataSource.h"
-#import "TopicCell.h"
+#import "CollectionCell.h"
 #import "TopicViewController.h"
 #import "UICollectionView+DataSourceUpdate.h"
 
@@ -83,11 +83,12 @@ static NSString * const kTopicCellReuseID = @"topic-cell";
 - (UICollectionView *)collectionView {
     if (!_collectionView) {
         _collectionView = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:self.layout];
+        _collectionView.autoresizingMask = UIViewAutoresizingFlexibleHeight;
         _collectionView.alwaysBounceVertical = YES;
         _collectionView.dataSource = self;
         _collectionView.delegate = self;
         
-        [_collectionView registerClass:[TopicCell class] forCellWithReuseIdentifier:kTopicCellReuseID];
+        [_collectionView registerClass:[CollectionCell class] forCellWithReuseIdentifier:kTopicCellReuseID];
     }
     return _collectionView;
 }
@@ -113,8 +114,8 @@ static NSString * const kTopicCellReuseID = @"topic-cell";
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-    TopicCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:kTopicCellReuseID forIndexPath:indexPath];
-    cell.topic = [self topicAtIndexPath:indexPath];
+    CollectionCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:kTopicCellReuseID forIndexPath:indexPath];
+    cell.collection = [self topicAtIndexPath:indexPath];
     return cell;
 }
 

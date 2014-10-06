@@ -20,6 +20,7 @@
 @property (nonatomic, strong) UIButton *button;
 
 @property (nonatomic, strong) RGKVOHandle *badgeCountObserver;
+@property (nonatomic, strong) RGKVOHandle *badgeVisibleObserver;
 
 @end
 
@@ -37,10 +38,13 @@
         [self addSubview:self.badgeLabel];
         
         weakify(self);
+        self.badgeVisibleObserver = [RGObserver(tabBarItem, badgeVisible) observeOnMain:^(NSDictionary *change) {
+            strongify(self);
+            [self updateBadgeCount];
+        } options:NSKeyValueObservingOptionInitial|NSKeyValueObservingOptionNew];
         self.badgeCountObserver = [RGObserver(tabBarItem, badgeCount) observeOnMain:^(NSDictionary *change) {
             strongify(self);
-            NSInteger badgeCount = [change[NSKeyValueChangeNewKey] integerValue];
-            [self updateBadgeCount:badgeCount];
+            [self updateBadgeCount];
         } options:NSKeyValueObservingOptionInitial|NSKeyValueObservingOptionNew];
     }
     return self;
@@ -72,10 +76,14 @@
     self.alpha = selected ? 1.0 : 0.25;
 }
 
-- (void)updateBadgeCount:(NSInteger)badgeCount {
-    if (badgeCount > 0) {
+- (void)updateBadgeCount {
+    if (self.tabBarItem.badgeVisible) {
         self.badgeLabel.hidden = NO;
-        self.badgeLabel.text = [NSString stringWithFormat:@"%lu", (long)badgeCount];
+        if (self.tabBarItem.badgeCount > 0) {
+            self.badgeLabel.text = [NSString stringWithFormat:@"%lu", (long)self.tabBarItem.badgeCount];
+        } else {
+            self.badgeLabel.text = @" ";
+        }
         CGSize desiredSize = [self.badgeLabel sizeThatFits:CGSizeMake(FLT_MAX, FLT_MAX)];
         desiredSize.width = MAX(desiredSize.width, desiredSize.height);
         self.badgeLabel.frame = CGRectMake(0.0, 0.0, desiredSize.width, desiredSize.height);

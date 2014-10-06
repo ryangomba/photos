@@ -1,4 +1,5 @@
 PODS:
+  - APTimeZones (1.1)
   - CocoaLumberjack (1.9.2):
     - CocoaLumberjack/Extensions
   - CocoaLumberjack/Core (1.9.2)
@@ -15,12 +16,14 @@ PODS:
     - YapDatabase/common
 
 DEPENDENCIES:
+  - APTimeZones
   - RGCore
   - RGFoundation
   - RGInterfaceKit
   - YapDatabase
 
 SPEC CHECKSUMS:
+  APTimeZones: 887a7b5a7abd4a05fcc4de3ff7427d5248becdaf
   CocoaLumberjack: 205769c032b5fef85b92472046bcc8b7e7c8a817
   RGCore: f367502169ed0600e3475691c3024231c9b1fa65
   RGFoundation: 9798af860a4abbbe185201242426829e3e001b2f

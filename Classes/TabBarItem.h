@@ -14,5 +14,6 @@
 @property (nonatomic, strong) NSString *title;
 @property (nonatomic, strong) NSString *imageName;
 @property (nonatomic, assign) NSInteger badgeCount;
+@property (nonatomic, assign) BOOL badgeVisible;
 
 @end

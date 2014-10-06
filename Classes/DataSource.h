@@ -20,7 +20,9 @@
 
 @interface DataSource : NSObject
 
-- (instancetype)initWithCollectionKey:(NSString *)collectionKey comparator:(NSComparator)comparator;
+- (instancetype)initWithCollectionKey:(NSString *)collectionKey
+                           comparator:(NSComparator)comparator
+                        groupingBlock:(NSString * (^)(id object))groupingBlock;
 
 - (NSInteger)numberOfSections;
 - (NSInteger)numberOfItemsInSection:(NSInteger)section;

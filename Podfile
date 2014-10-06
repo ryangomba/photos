@@ -11,5 +11,6 @@ pod 'RGFoundation'
 pod 'RGInterfaceKit'
 
 pod 'YapDatabase'
+pod 'APTimeZones'
 
 end
