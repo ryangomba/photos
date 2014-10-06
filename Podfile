@@ -7,6 +7,8 @@ source 'git@github.com:ryangomba/RGPodspecs.git'
 target "Photos" do
 
 pod 'RGCore'
+pod 'RGFoundation'
+pod 'RGInterfaceKit'
 
 pod 'YapDatabase'
 

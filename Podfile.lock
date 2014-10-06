@@ -5,6 +5,8 @@ PODS:
   - CocoaLumberjack/Extensions (1.9.2):
     - CocoaLumberjack/Core
   - RGCore (1.0.3)
+  - RGFoundation (2.0.1)
+  - RGInterfaceKit (1.0.3)
   - YapDatabase (2.5.2):
     - YapDatabase/standard
   - YapDatabase/common (2.5.2):
@@ -14,11 +16,15 @@ PODS:
 
 DEPENDENCIES:
   - RGCore
+  - RGFoundation
+  - RGInterfaceKit
   - YapDatabase
 
 SPEC CHECKSUMS:
   CocoaLumberjack: 205769c032b5fef85b92472046bcc8b7e7c8a817
   RGCore: f367502169ed0600e3475691c3024231c9b1fa65
+  RGFoundation: 9798af860a4abbbe185201242426829e3e001b2f
+  RGInterfaceKit: 6a25d4cfef69fcebf4d1317a33ed724d6cc9431a
   YapDatabase: 50f763e49374c38025e8255b4c468d26d81b1048
 
 COCOAPODS: 0.34.1

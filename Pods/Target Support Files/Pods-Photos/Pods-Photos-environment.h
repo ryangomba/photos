@@ -30,6 +30,18 @@
 #define COCOAPODS_VERSION_MINOR_RGCore 0
 #define COCOAPODS_VERSION_PATCH_RGCore 3
 
+// RGFoundation
+#define COCOAPODS_POD_AVAILABLE_RGFoundation
+#define COCOAPODS_VERSION_MAJOR_RGFoundation 2
+#define COCOAPODS_VERSION_MINOR_RGFoundation 0
+#define COCOAPODS_VERSION_PATCH_RGFoundation 1
+
+// RGInterfaceKit
+#define COCOAPODS_POD_AVAILABLE_RGInterfaceKit
+#define COCOAPODS_VERSION_MAJOR_RGInterfaceKit 1
+#define COCOAPODS_VERSION_MINOR_RGInterfaceKit 0
+#define COCOAPODS_VERSION_PATCH_RGInterfaceKit 3
+
 // YapDatabase
 #define COCOAPODS_POD_AVAILABLE_YapDatabase
 #define COCOAPODS_VERSION_MAJOR_YapDatabase 2
