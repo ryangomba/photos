@@ -27,6 +27,7 @@
 - (NSInteger)numberOfSections;
 - (NSInteger)numberOfItemsInSection:(NSInteger)section;
 - (id)objectAtIndexPath:(NSIndexPath *)indexPath;
+- (NSString *)titleForSection:(NSInteger)section;
 
 @property (nonatomic, weak) id<DataSourceDelegate> delegate;
 

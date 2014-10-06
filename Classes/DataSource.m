@@ -173,4 +173,8 @@
     return object;
 }
 
+- (NSString *)titleForSection:(NSInteger)section {
+    return [self.mappings groupForSection:section];
+}
+
 @end

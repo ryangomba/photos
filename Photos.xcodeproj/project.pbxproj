@@ -42,6 +42,7 @@
 		94EC534319E2FFF500F90632 /* UICollectionView+DataSourceUpdate.m in Sources */ = {isa = PBXBuildFile; fileRef = 94EC534219E2FFF500F90632 /* UICollectionView+DataSourceUpdate.m */; };
 		94EC534519E3090500F90632 /* Location.m in Sources */ = {isa = PBXBuildFile; fileRef = 94EC534419E3090500F90632 /* Location.m */; };
 		94EC534919E31B0900F90632 /* CollectionPickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94EC534819E31B0900F90632 /* CollectionPickerViewController.m */; };
+		94EC534D19E3335F00F90632 /* PhotoSectionHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 94EC534C19E3335F00F90632 /* PhotoSectionHeaderView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -115,6 +116,8 @@
 		94EC534719E31B0900F90632 /* CollectionPickerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollectionPickerViewController.h; sourceTree = "<group>"; };
 		94EC534819E31B0900F90632 /* CollectionPickerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollectionPickerViewController.m; sourceTree = "<group>"; };
 		94EC534A19E320E600F90632 /* Collection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Collection.h; sourceTree = "<group>"; };
+		94EC534B19E3335F00F90632 /* PhotoSectionHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhotoSectionHeaderView.h; sourceTree = "<group>"; };
+		94EC534C19E3335F00F90632 /* PhotoSectionHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotoSectionHeaderView.m; sourceTree = "<group>"; };
 		E1250A1BFE34E248C04709BF /* libPods-Photos.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Photos.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F5C3B91656E3B9E2186D978F /* Pods-Photos.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Photos.release.xcconfig"; path = "Pods/Target Support Files/Pods-Photos/Pods-Photos.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -249,6 +252,8 @@
 				94EC531619E0768F00F90632 /* PhotoCell.m */,
 				94EC531819E0786B00F90632 /* PhotoLoader.h */,
 				94EC531919E0786B00F90632 /* PhotoLoader.m */,
+				94EC534B19E3335F00F90632 /* PhotoSectionHeaderView.h */,
+				94EC534C19E3335F00F90632 /* PhotoSectionHeaderView.m */,
 			);
 			name = Photos;
 			sourceTree = "<group>";
@@ -420,6 +425,7 @@
 				94EC52F019DF5FC300F90632 /* PhotosListViewController.m in Sources */,
 				94EC52EA19DF53DC00F90632 /* Database.m in Sources */,
 				94EC52DB19DF4FA500F90632 /* main.m in Sources */,
+				94EC534D19E3335F00F90632 /* PhotoSectionHeaderView.m in Sources */,
 				94EC530619E06FA400F90632 /* TopicsDataSource.m in Sources */,
 				94EC52F419DF62B400F90632 /* TabBarController.m in Sources */,
 				94EC52DE19DF510300F90632 /* PhotoImporter.m in Sources */,

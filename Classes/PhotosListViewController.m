@@ -17,6 +17,7 @@
 #import "DataSourceUpdate.h"
 #import "UICollectionView+DataSourceUpdate.h"
 #import "CollectionPickerViewController.h"
+#import "PhotoSectionHeaderView.h"
 #import "EventsDataSource.h"
 #import "TopicsDataSource.h"
 
@@ -25,8 +26,9 @@ static CGFloat const kCellSpacing = 1.0;
 static CGFloat const kSelectionBarHeight = 60.0;
 
 static NSString * const kPhotoCellReuseID = @"photo-cell";
+static NSString * const kPhotoHeaderReuseID = @"photo-header";
 
-@interface PhotosListViewController ()<UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, ActionBarDelegate, CollectionPickerViewControllerDelegate>
+@interface PhotosListViewController ()<UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, ActionBarDelegate, CollectionPickerViewControllerDelegate, PhotoSectionHeaderViewDelegate>
 
 @property (nonatomic, strong, readwrite) PhotosDataSource *dataSource;
 @property (nonatomic, assign) BOOL loadedOnce;
@@ -104,6 +106,7 @@ static NSString * const kPhotoCellReuseID = @"photo-cell";
         _collectionView.delegate = self;
         
         [_collectionView registerClass:[PhotoCell class] forCellWithReuseIdentifier:kPhotoCellReuseID];
+        [_collectionView registerClass:[PhotoSectionHeaderView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:kPhotoHeaderReuseID];
     }
     return _collectionView;
 }
@@ -137,6 +140,15 @@ static NSString * const kPhotoCellReuseID = @"photo-cell";
     return [self.dataSource numberOfItemsInSection:section];
 }
 
+- (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath {
+    PhotoSectionHeaderView *header = [collectionView dequeueReusableSupplementaryViewOfKind:kind withReuseIdentifier:kPhotoHeaderReuseID forIndexPath:indexPath];
+    NSString *groupName = [self.dataSource titleForSection:indexPath.section];
+    header.sectionIndex = indexPath.section;
+    header.title = groupName;
+    header.delegate = self;
+    return header;
+}
+
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     PhotoCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:kPhotoCellReuseID forIndexPath:indexPath];
     cell.photo = [self photoAtIndexPath:indexPath];
@@ -148,7 +160,7 @@ static NSString * const kPhotoCellReuseID = @"photo-cell";
 #pragma mark UICollectionViewDelegateFlowLayout
 
 - (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout insetForSectionAtIndex:(NSInteger)section {
-    return UIEdgeInsetsMake(60.0, 0.0, 0.0, 0.0);
+    return UIEdgeInsetsMake(0.0, 0.0, 20.0, 0.0);
 }
 
 - (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumInteritemSpacingForSectionAtIndex:(NSInteger)section {
@@ -157,6 +169,10 @@ static NSString * const kPhotoCellReuseID = @"photo-cell";
 
 - (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section {
     return kCellSpacing;
+}
+
+- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section {
+    return CGSizeMake(collectionView.bounds.size.height, 60.0);
 }
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
@@ -204,6 +220,19 @@ static NSString * const kPhotoCellReuseID = @"photo-cell";
 
 
 #pragma mark -
+#pragma mark PhotoSectionHeaderViewDelegate
+
+- (void)photoSectionHeaderViewDidAskForSelection:(PhotoSectionHeaderView *)headerView {
+    NSInteger section = headerView.sectionIndex;
+    for (NSInteger i = 0; i < [self.collectionView numberOfItemsInSection:section]; i++) {
+        NSIndexPath *indexPath = [NSIndexPath indexPathForItem:i inSection:section];
+        [self.collectionView selectItemAtIndexPath:indexPath animated:NO scrollPosition:UICollectionViewScrollPositionNone];
+    }
+    [self updateSelectionBar];
+}
+
+
+#pragma mark -
 #pragma mark ActionBarDelegate
 
 - (void)actionBarDidSelectCancel:(ActionBar *)actionBar {
@@ -225,7 +254,7 @@ static NSString * const kPhotoCellReuseID = @"photo-cell";
 }
 
 - (void)actionBarDidSelectDelete:(ActionBar *)actionBar {
-    NSArray *selectedPhotos = [self.selectedPhotos];
+    NSArray *selectedPhotos = [self selectedPhotos];
     
     NSMutableArray *assets = [NSMutableArray array];
     NSArray *localIdentifiers = [selectedPhotos valueForKey:@"localIdentifier"];
