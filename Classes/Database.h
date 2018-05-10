@@ -24,6 +24,8 @@ static NSString * const kTopicsCollectionKey = @"topics";
 
 + (void)wipeDatabase;
 
++ (void)removeDupes;
+
 + (void)checkForPhotosWithLocalIdentifiers:(NSSet *)localIdentifiers
                                 completion:(void(^)(NSSet *foundLocalIdentifiers))completion;
 

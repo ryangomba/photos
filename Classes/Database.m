@@ -39,6 +39,22 @@
     }];
 }
 
++ (void)removeDupes {
+    [self.writeConnection readWriteWithBlock:^(YapDatabaseReadWriteTransaction *transaction) {
+        NSMutableSet *set = [NSMutableSet set];
+        [transaction enumerateKeysAndObjectsInAllCollectionsUsingBlock:^(NSString *collection, NSString *key, id object, BOOL *stop) {
+            if ([object isKindOfClass:[Photo class]]) {
+                Photo *photo = object;
+                if ([set containsObject:photo.localIdentifier]) {
+                    NSLog(@"Duplicate!");
+                } else {
+                    [set addObject:photo.localIdentifier];
+                }
+            }
+        }];
+    }];
+}
+
 + (void)checkForPhotosWithLocalIdentifiers:(NSSet *)localIdentifiers
                                 completion:(void (^)(NSSet *))completion {
     
@@ -122,6 +138,7 @@
             NSString *currentCollectionPK = photo.collectionPK ?: kPhotosCollectionKey;
             [transaction removeObjectForKey:photo.localIdentifier inCollection:currentCollectionPK];
             [transaction setObject:photo forKey:photo.localIdentifier inCollection:event.pk];
+            photo.collectionPK = event.pk;
             if (photo.creationDate == [photo.creationDate earlierDate:validEvent.representativeDate]) {
                 validEvent.representativeDate = photo.creationDate;
                 validEvent.representativePhotoPK = photo.localIdentifier;
@@ -167,6 +184,7 @@
     for (Photo *photo in photos) {
         NSString *currentCollectionPK = photo.collectionPK ?: kPhotosCollectionKey;
         [transaction removeObjectForKey:photo.localIdentifier inCollection:currentCollectionPK];
+        photo.collectionPK = topic.pk;
         [transaction setObject:photo forKey:photo.localIdentifier inCollection:topic.pk];
     }
     if (!validTopic.representativePhotoPK) {
@@ -217,6 +235,13 @@
         NSString *collectionKey = [self collectionKeyForCollectionType:collectionType];
         collection = [transaction objectForKey:collectionPK inCollection:collectionKey];
         photo = [transaction objectForKey:collection.representativePhotoPK inCollection:collection.pk];
+        if (!photo) {
+            // TODO reassign
+            [transaction enumerateKeysAndObjectsInCollection:collectionPK usingBlock:^(NSString *key, id object, BOOL *stop) {
+                photo = object;
+            }];
+            collection.representativePhotoPK = photo.localIdentifier;
+        }
         NSAssert(photo, @"WTF no photo");
         
     } completionBlock:^{

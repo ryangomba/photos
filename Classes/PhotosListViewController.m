@@ -105,6 +105,8 @@ static NSString * const kPhotoHeaderReuseID = @"photo-header";
         _collectionView.dataSource = self;
         _collectionView.delegate = self;
         
+        _collectionView.backgroundColor = [UIColor whiteColor];
+        
         [_collectionView registerClass:[PhotoCell class] forCellWithReuseIdentifier:kPhotoCellReuseID];
         [_collectionView registerClass:[PhotoSectionHeaderView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:kPhotoHeaderReuseID];
     }
@@ -172,7 +174,7 @@ static NSString * const kPhotoHeaderReuseID = @"photo-header";
 }
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section {
-    return CGSizeMake(collectionView.bounds.size.height, 60.0);
+    return CGSizeMake(collectionView.bounds.size.height, 44.0);
 }
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {

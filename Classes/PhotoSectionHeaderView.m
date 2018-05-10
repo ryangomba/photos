@@ -19,19 +19,19 @@
 
 - (instancetype)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {
-        [self addSubview:self.titleLabel];
+//        [self addSubview:self.titleLabel];
         [self addSubview:self.selectionButton];
     }
     return self;
 }
 
-- (UILabel *)titleLabel {
-    if (!_titleLabel) {
-        _titleLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-        _titleLabel.textColor = [UIColor whiteColor];
-    }
-    return _titleLabel;
-}
+//- (UILabel *)titleLabel {
+//    if (!_titleLabel) {
+//        _titleLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+//        _titleLabel.textColor = [UIColor whiteColor];
+//    }
+//    return _titleLabel;
+//}
 
 - (UIButton *)selectionButton {
     if (!_selectionButton) {
